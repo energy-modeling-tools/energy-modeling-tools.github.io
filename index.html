@@ -26,6 +26,12 @@ title: Energy Modeling Tools
 
 <style>
   /* Clean, borderless grid */
+  .animate-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: animateIn 0.8s ease-out forwards;
+    animation-delay: var(--animation-delay, 0s);
+  }
   .tool-link {
     transition: transform 0.2s ease;
     display: flex;
