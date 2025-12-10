@@ -1,0 +1,29 @@
+title: "Energy Modeling Tools"
+description: "A hub for open-source energy modeling tools"
+baseurl: ""
+url: "https://energy-modeling-tools.github.io"
+
+markdown: kramdown
+theme: jekyll-theme-primer
+
+sass:
+  style: :compressed
+  sass_dir: assets/css/
+  load_paths:
+    - node_modules/
+    - node_modules/@primer/view-components/app/components/
+
+plugins:
+  - jekyll-avatar
+  - jekyll-redirect-from
+  - jekyll-seo-tag
+  - jekyll-coffeescript
+  - jekyll-sitemap
+  - jekyll-octicons
+
+exclude:
+  - node_modules
+  - vendor
+  - script
+  - package.json
+  - package-lock.json

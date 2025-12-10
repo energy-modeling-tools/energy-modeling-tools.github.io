@@ -1,0 +1,62 @@
+{% include header.html %}
+
+<script>
+document.addEventListener('error', function(e) {
+  var elem = e.target;
+  if (elem.tagName.toLowerCase() === 'img') {
+    var src = elem.src;
+    // 1. 获取当前后缀
+    var match = src.match(/\.([a-zA-Z]+)(\?.*)?$/);
+    if (!match) return;
+    
+    var currentExt = match[1];
+    
+    // 2. 初始化重试列表
+    if (!elem.dataset.imageTriedList) {
+      elem.dataset.imageTriedList = currentExt; // 记录初始后缀
+    }
+    
+    // 3. 定义备选策略 (全面覆盖大小写和格式互换)
+    // 优先试同格式的大小写，然后试异格式
+    var strategy = {
+      'jpg':  ['JPG', 'png', 'PNG', 'jpeg', 'JPEG'],
+      'JPG':  ['jpg', 'png', 'PNG', 'jpeg', 'JPEG'],
+      'png':  ['PNG', 'jpg', 'JPG', 'jpeg', 'JPEG'],
+      'PNG':  ['png', 'jpg', 'JPG', 'jpeg', 'JPEG'],
+      'jpeg': ['JPEG', 'jpg', 'JPG', 'png', 'PNG'],
+      'JPEG': ['jpeg', 'jpg', 'JPG', 'png', 'PNG']
+    };
+    
+    // 4. 找到下一个还没试过的后缀
+    var candidates = strategy[currentExt] || strategy[currentExt.toLowerCase()];
+    if (!candidates) return;
+    
+    var triedList = elem.dataset.imageTriedList.split(',');
+    var nextExt = null;
+    
+    for (var i = 0; i < candidates.length; i++) {
+      if (triedList.indexOf(candidates[i]) === -1) {
+        nextExt = candidates[i];
+        break;
+      }
+    }
+    
+    // 5. 执行重试
+    if (nextExt) {
+      elem.dataset.imageTriedList += ',' + nextExt;
+      var lastIndex = src.lastIndexOf('.');
+      // 替换后缀，保留后面的参数（如果有）
+      var newSrc = src.substring(0, lastIndex) + '.' + nextExt + src.substring(lastIndex + currentExt.length + 1);
+      elem.src = newSrc;
+      // console.log('Retrying image:', currentExt, '->', nextExt);
+    } else {
+      // console.log('All image fallbacks failed for', src);
+    }
+  }
+}, true);
+</script>
+
+</div>
+    {{ content }}
+
+{% include footer.html %}
