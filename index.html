@@ -81,9 +81,9 @@ title: Energy Modeling Tools
   }
 </style>
 
-<div class="tools-grid animate-in">
+<div class="tools-grid">
   {% for tool in site.data.tools %}
-  <div class="text-center" style="animation-delay: {{ forloop.index | times: 0.1 }}s;">
+  <div class="text-center">
     <a href="{{ tool.url | relative_url }}" class="tool-link">
       <img src="{{ tool.logo | relative_url }}" alt="{{ tool.name }}" class="tool-logo">
     </a>
