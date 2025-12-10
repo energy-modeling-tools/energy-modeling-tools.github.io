@@ -3,46 +3,91 @@ layout: home
 title: Energy Modeling Tools
 ---
 
-<div class="container-lg p-responsive py-4 py-lg-6 my-xl-4 text-center">
-  <h1 class="alt-h1 mb-4 intro-title">Energy Modeling Tools</h1>
-  <p class="text-gray" style="max-width: 800px; margin: 0 auto; font-size: 1.25rem;">
-    A suite of open-source tools to support energy planning, investment, and policy analysis.
-  </p>
-</div>
-
-<section class="bg-white py-5">
-  <div class="container-lg p-responsive">
-    <!-- Grid System -->
-    <div class="d-flex flex-wrap flex-items-center flex-justify-center" style="gap: 30px;">
-      {% for tool in site.data.tools %}
-      <div class="col-md-3 col-sm-4 text-center animate-in mb-4">
-        <a href="{{ tool.url | relative_url }}" class="d-block tool-link">
-          <img src="{{ tool.logo | relative_url }}" alt="{{ tool.name }}" class="img-fluid tool-logo">
-        </a>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
+<!-- Hide default header and setup full-screen background -->
 <style>
-  /* Clean, borderless grid */
+  /* Hide Primer theme headers */
+  .page-header, header, .Header {
+    display: none !important;
+  }
+  
+  /* Full screen background */
+  body {
+    background-image: url("{{ '/assets/img/background.svg' | relative_url }}");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertical center */
+  }
+
+  /* Main content wrapper override */
+  .container-lg {
+    max-width: 100% !important;
+    width: 100%;
+  }
+
+  /* Grid System: 5 columns on desktop */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Mobile: 2 columns */
+    gap: 30px;
+    width: 90%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 2rem 0;
+  }
+
+  @media (min-width: 768px) {
+    .tools-grid {
+      grid-template-columns: repeat(3, 1fr); /* Tablet: 3 columns */
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .tools-grid {
+      grid-template-columns: repeat(5, 1fr); /* Desktop: 5 columns */
+    }
+  }
+
+  /* Tool Card Styling */
   .tool-link {
-    transition: transform 0.2s ease;
+    background: rgba(255, 255, 255, 0.85); /* Slight transparency */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    border-radius: 16px;
+    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 150px; /* Fixed height for consistency */
-    padding: 10px;
+    height: 180px; /* Fixed height */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255,255,255,0.5);
   }
-  
+
   .tool-link:hover {
-    transform: scale(1.08); /* Slight zoom on hover */
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    background: #ffffff;
+    z-index: 10;
   }
 
   .tool-logo {
-    max-height: 100%;
-    max-width: 100%;
-    object-fit: contain; /* Ensure logo fits without distortion */
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    filter: grayscale(0%); /* Keep logos colorful */
   }
 </style>
+
+<div class="tools-grid animate-in">
+  {% for tool in site.data.tools %}
+  <div class="text-center" style="animation-delay: {{ forloop.index | times: 0.1 }}s;">
+    <a href="{{ tool.url | relative_url }}" class="tool-link">
+      <img src="{{ tool.logo | relative_url }}" alt="{{ tool.name }}" class="tool-logo">
+    </a>
+  </div>
+  {% endfor %}
+</div>
